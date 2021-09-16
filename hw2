@@ -1,0 +1,84 @@
+<!--Формуляр для факультетов-->
+
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Angular JS Filters</title>
+      <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js">
+      </script>
+   </head>
+   
+   <body>
+      
+      <div ng-app = "mainApp" ng-controller = "studentController">
+         <table border = "0">
+            <tr>
+               <td>Enter first name:</td>
+               <td><input type = "text" ng-model = "student.firstName"></td>
+            </tr>
+            <tr>
+               <td>Enter last name: </td>
+               <td><input type = "text" ng-model = "student.lastName"></td>
+            </tr>
+            <tr>
+               <td>Enter date of birth: </td>
+               <td><input type="datetime-local" ng-model="student.date"></td>
+            </tr>
+            <tr>
+               <td>Enter faculty: </td>
+               <td><input type = "text" ng-model = "faculty"></td>
+            </tr>
+         </table>
+         <br/>
+         
+         <table border = "0">
+            <tr>
+               <td>Name: </td><td>{{student.fullName() | uppercase}}</td>
+            </tr>
+            <tr>
+               <td>date of birth: </td><td>{{student.date | date : "dd MMMM y"}}
+               </td>
+            </tr>
+            <tr>
+               <td>Faculty:</td>
+               <td>
+                  <ul>
+                     <li ng-repeat = "subject in student.department | filter: faculty |orderBy:'name'">
+                        {{ subject.name }}
+                     </li>
+                  </ul>
+               </td>
+            </tr>
+         </table>
+      </div>
+      
+      <script>
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('studentController', function($scope) {
+            $scope.student = {
+               firstName: "Anastasia",
+               lastName: "Arsenii",
+               date: "11 September 2000",
+
+               department:[
+                  {name:'Law'},
+                  {name:'Physics and Chemical Technology'},
+                  {name:'Mathematics and Computer Science'},
+                  {name:'Journalism'},
+                  {name:'International relations'},
+                  {name:'Psychology'},
+                  {name:'Economic Science'}
+               ],
+               fullName: function() {
+                  var studentObject;
+                  studentObject = $scope.student;
+                  return studentObject.firstName + " " + studentObject.lastName;
+               }
+            };
+         });
+      </script>
+      
+   </body>
+</html>
+
